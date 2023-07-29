@@ -1,0 +1,12 @@
+.cache/
+.config/
+.ipynb_checkpoints/
+.ipython/profile_default/
+.jupyter/
+.local/
+.npm/_cacache/
+.ssh/
+.bash_profile
+.bashrc
+.tmux.conf
+.vimrc
