@@ -1,4 +1,128 @@
----
-layout: home
-author_profile: true
----
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>Human-Disaster</title>
+
+        <script type="text/javascript" src="d3.js"></script>
+
+        <style>
+            .darkmode {
+                background-color: #3e3a3a;
+                color: white;
+            }
+        </style>
+
+
+    </head>
+    <body class = darkmode >
+
+        <div  align="center">
+            <h1>GLOBAL INTERNAL DISPLACEMENT-DISASTER</h1>
+            <h3>Group 19</h3>
+            <h4>崔刚瑀 李文卉 梁琦茸 宋伊桐</h4>
+            <strong>由于气候变化,到处都能看到自然灾害造成的损失新闻。<br/>
+                对此，我们想知道自然灾害实际上正在增加，人们遭受了多少损失。<br/>
+                为了了解有多少人失去了生存的基础，<br/>
+                我们使用了IDMC网站上的难民数据。<br/><br/>
+                以下是表示每年灾害发生次数的图表。<br/>
+                从2008年到2022年，可以看出逐渐增加的趋势。
+
+            </strong>
+            
+        </div>
+        
+        <div id="my_dataviz" align="center"></div>
+        <div align="center">
+            <select id="variableSelect" onchange="update(this.value)">
+                <option value="Total">Total</option>
+                <option value="Flood">Flood</option>
+                <option value="Storm">Storm</option>
+                <option value="ExtremeTemperature">Extreme Temperature</option>
+            </select>
+        </div>
+
+        <script type="text/javascript">
+        
+        var rowConverter = function(d) {
+                return {
+                    
+                    Flood : parseFloat(d.Flood),
+                    Storm : parseFloat(d.Storm),
+                    ExtremeTemperature : parseFloat(d.ExtremeTemperature),
+                    Total : parseFloat(d.Total),
+                    Year : d.Year
+                };
+            }
+
+        const margin = {top: 30, right: 30, bottom: 70, left: 60},
+            width = 600 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        const svg = d3.select("#my_dataviz")
+        .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Initialize the X axis
+        const x = d3.scaleBand()
+        .range([ 0, width ])
+        .padding(0.2);
+        const xAxis = svg.append("g")
+        .attr("transform", `translate(0,${height})`);
+
+        // Initialize the Y axis
+        const y = d3.scaleLinear()
+        .range([ height, 0]);
+        const yAxis = svg.append("g")
+        .attr("class", "myYaxis");
+
+
+        // //A function that create / update the plot for a given variable:
+        function update(selectedVar) {
+
+        // Parse the Data
+        d3.csv("numberofdisaster.csv",rowConverter).then( function(data) {
+
+            
+            // X axis
+            x.domain(data.map(d => d.Year));
+            xAxis.transition().duration(1000).call(d3.axisBottom(x));
+
+            // Add Y axis
+            // y.domain([0, d3.max(data, d => +d[selectedVar]) ]);
+            y.domain([0, d3.max(data, d => +d[selectedVar]) ]);
+            yAxis.transition().duration(1000).call(d3.axisLeft(y));
+
+            // variable u: map data to existing bars
+            const u = svg.selectAll("rect")
+            .data(data)
+            
+            console.log(data);
+
+            // update bars
+            u.join("rect")
+            .transition()
+            .duration(1000)
+                .attr("x", d => x(d.Year))
+                .attr("y", d => y(d[selectedVar]))
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - y(d[selectedVar]))
+                .attr("fill", "#69b3a2")
+        })
+
+        }
+
+        // Initialize plot
+        update('Total')
+
+
+        </script>
+
+        
+    </body>
+</html>
