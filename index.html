@@ -3,19 +3,46 @@
     <head>
         <meta charset="utf-8">
 
-        <title>D3 Page Template</title>
+        <title>Human-Disaster</title>
 
         <script type="text/javascript" src="d3.js"></script>
 
-        <button onclick="update('Total')">Total</button>
-        <button onclick="update('Flood')">Flood</button>
-        <button onclick="update('Storm')">Storm</button>
-        <button onclick="update('ExtremeTemperature')">Extreme Temperature</button>
+        <style>
+            .darkmode {
+                background-color: #3e3a3a;
+                color: white;
+            }
+        </style>
 
-        <div id="my_dataviz"></div>
 
     </head>
-    <body>
+    <body class = darkmode >
+
+        <div  align="center">
+            <h1>GLOBAL INTERNAL DISPLACEMENT-DISASTER</h1>
+            <h3>Group 19</h3>
+            <h4>崔刚瑀 李文卉 梁琦茸 宋伊桐</h4>
+            <strong>由于气候变化,到处都能看到自然灾害造成的损失新闻。<br/>
+                对此，我们想知道自然灾害实际上正在增加，人们遭受了多少损失。<br/>
+                为了了解有多少人失去了生存的基础，<br/>
+                我们使用了IDMC网站上的难民数据。<br/><br/>
+                以下是表示每年灾害发生次数的图表。<br/>
+                从2008年到2022年，可以看出逐渐增加的趋势。
+
+            </strong>
+            
+        </div>
+        
+        <div id="my_dataviz" align="center"></div>
+        <div align="center">
+            <select id="variableSelect" onchange="update(this.value)">
+                <option value="Total">Total</option>
+                <option value="Flood">Flood</option>
+                <option value="Storm">Storm</option>
+                <option value="ExtremeTemperature">Extreme Temperature</option>
+            </select>
+        </div>
+
         <script type="text/javascript">
         
         var rowConverter = function(d) {
@@ -95,5 +122,7 @@
 
 
         </script>
+
+        
     </body>
 </html>
